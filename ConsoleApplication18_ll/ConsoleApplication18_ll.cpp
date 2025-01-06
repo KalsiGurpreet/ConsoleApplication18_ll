@@ -12,7 +12,6 @@ struct ELEMENT
 int main(void)
 {
 	struct ELEMENT* pfirstvalue, * plastvalue, * pcurrentvalue;
-
 	struct ELEMENT val[10];
 
 
@@ -29,35 +28,27 @@ int main(void)
 	{
 		(val + i)->value = *(values + i);
 	}
-	(val)->value = *(values);
-	(val + 1)->value = *(values + 1);
-	(val + 2)->value = *(values + 2);
-	(val + 3)->value = *(values + 3);
-	(val + 4)->value = *(values + 4);
-	(val + 4)->value = *(values + 5);
-	(val + 6)->value = *(values + 6);
-	(val + 7)->value = *(values + 7);
-	(val + 8)->value = *(values + 8);
-	(val + 9)->value = *(values + 9);
-
-	(val)->pnext = (val + 1);
-	(val + 1)->pnext = (val + 2);
-	(val + 2)->pnext = (val + 3);
-	(val + 3)->pnext = (val + 4);
-	(val + 4)->pnext = (val + 5);
-	(val + 5)->pnext = (val + 6);
-	(val + 6)->pnext = (val + 7);
-	(val + 7)->pnext = (val + 8);
-	(val + 8)->pnext = (val + 9);
+	
+	for (i = 0; i < 9; i++)
+	{
+		(val + i)->pnext = ((val + 1) + i);
+	}
 	(val + 9)->pnext = NULL;
 
 
 	pcurrentvalue = pfirstvalue;
-
-	while (pcurrentvalue != NULL)
+	printf("size is %lu\n", sizeof(struct ELEMENT));
+	printf("size of int is %lu\n", sizeof(int));
+	
+	printf("First 5 values\n");
+	for(i=0;i<5;i++)
 	{
-		printf("value is %d\n", pcurrentvalue->value);
-		pcurrentvalue = pcurrentvalue->pnext;
+	    printf("%d\n", val[i].value);
+	}
+	printf("First 7 values\n");
+	for(i=0;i<7;i++)
+	{
+	    printf("%d\n", val[i].value);
 	}
 
 	//free(pfirstvalue);
