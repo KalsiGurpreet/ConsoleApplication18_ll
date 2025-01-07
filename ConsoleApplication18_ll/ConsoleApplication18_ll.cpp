@@ -5,14 +5,13 @@ struct ELEMENT
 {
 	int value;
 	struct ELEMENT* pnext;
+	struct ELEMENT* p_str;   // pointer pointing to type struct ELEMENT.
+	int* p;                  // if alone pointer is declared, it will point to type int or char as defined.
 };
-
-
 
 int main(void)
 {
-	struct ELEMENT* pfirstvalue, * plastvalue, * pcurrentvalue;
-
+	struct ELEMENT* pfirstvalue, * pcurrentvalue;
 	struct ELEMENT val[10];
 
 
@@ -20,46 +19,52 @@ int main(void)
 	int i = 0;
 
 
-	//pfirstvalue = (struct ELEMENT*)malloc(sizeof(struct ELEMENT));
+	struct ELEMENT *x = (struct ELEMENT*)malloc(sizeof(struct ELEMENT));
 
+	for (i = 0; i < 10; i++)
+	{
+		(val + i)->p_str = (val + i);  // assigning memory location same as structure val[0].
+	}
+	
 	pfirstvalue = val;
-	plastvalue = val + 9;
-
+	
+	// assigning the values.
 	for (i = 0; i < 10; i++)
 	{
 		(val + i)->value = *(values + i);
 	}
-	(val)->value = *(values);
-	(val + 1)->value = *(values + 1);
-	(val + 2)->value = *(values + 2);
-	(val + 3)->value = *(values + 3);
-	(val + 4)->value = *(values + 4);
-	(val + 4)->value = *(values + 5);
-	(val + 6)->value = *(values + 6);
-	(val + 7)->value = *(values + 7);
-	(val + 8)->value = *(values + 8);
-	(val + 9)->value = *(values + 9);
-
-	(val)->pnext = (val + 1);
-	(val + 1)->pnext = (val + 2);
-	(val + 2)->pnext = (val + 3);
-	(val + 3)->pnext = (val + 4);
-	(val + 4)->pnext = (val + 5);
-	(val + 5)->pnext = (val + 6);
-	(val + 6)->pnext = (val + 7);
-	(val + 7)->pnext = (val + 8);
-	(val + 8)->pnext = (val + 9);
+	// assigning the next position.
+	for (i = 0; i < 9; i++)
+	{
+		(val + i)->pnext = ((val + 1) + i);
+	}
 	(val + 9)->pnext = NULL;
 
 
 	pcurrentvalue = pfirstvalue;
-
-	while (pcurrentvalue != NULL)
+	printf("size is %llu\n", sizeof(struct ELEMENT));
+	printf("size of int is %llu\n", sizeof(int));
+	
+	printf("First 5 values\n");
+	for(i=0;i<5;i++)
 	{
-		printf("value is %d\n", pcurrentvalue->value);
-		pcurrentvalue = pcurrentvalue->pnext;
+	    printf("%d\n", val[i].value);
+	}
+	printf("First 7 values\n");
+	for(i=0;i<7;i++)
+	{
+	    printf("%d\n", val[i].value);
+	}
+	for (i = 0; i < 10; i++)
+	{
+		printf("structure pointer val[%d] :%p\n", i, val[i].p_str);
+	}
+	for (i = 0; i < 10; i++)
+	{
+		printf("pnext pointer val[%d] %p\n", i+1, val[i].pnext);
 	}
 
-	//free(pfirstvalue);
+	free(x);
+	printf("Memory is freed");
 	return 0;
 }
